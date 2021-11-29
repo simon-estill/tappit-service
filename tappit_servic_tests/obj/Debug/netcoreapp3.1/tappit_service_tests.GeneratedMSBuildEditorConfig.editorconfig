@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = tappit_service_tests
+build_property.ProjectDir = C:\code\tappit-service\tappit_servic_tests\
