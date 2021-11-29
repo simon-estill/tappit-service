@@ -24,9 +24,9 @@ namespace tappit_service_tests
         {
             var persons = new List<Person>();
 
-            persons.Add(new Person { FirstName = "Anna", LastName = "Smith",IsAuthoristed =true, IsEnabled = true, IsValid = true, IsPalindrome= true, PersonId = 1, FavouriteSport = "Cricket" });
-            persons.Add(new Person { FirstName = "Steven", LastName = "Jones", IsAuthoristed = true, IsEnabled = true, IsValid = true, IsPalindrome = true, PersonId = 2, FavouriteSport = "Cycling" });
-            persons.Add(new Person { FirstName = "Bob", LastName = "White", IsAuthoristed = true, IsEnabled = true, IsValid = true, IsPalindrome = true, PersonId = 3, FavouriteSport = "Cricket"  });
+            persons.Add(new Person { FirstName = "Anna", LastName = "Smith",IsAuthorised =true, IsEnabled = true, IsValid = true, IsPalindrome= true, PersonId = 1, FavouriteSport = "Cricket" });
+            persons.Add(new Person { FirstName = "Steven", LastName = "Jones", IsAuthorised = true, IsEnabled = true, IsValid = true, IsPalindrome = true, PersonId = 2, FavouriteSport = "Cycling" });
+            persons.Add(new Person { FirstName = "Bob", LastName = "White", IsAuthorised = true, IsEnabled = true, IsValid = true, IsPalindrome = true, PersonId = 3, FavouriteSport = "Cricket"  });
 
 
             _mockPersonService.Setup(_ => _.GetPersons()).ReturnsAsync(persons);
@@ -45,7 +45,7 @@ namespace tappit_service_tests
             {
                 FirstName = "Anna",
                 LastName = "Smith",
-                IsAuthoristed = true,
+                IsAuthorised = true,
                 IsEnabled = true,
                 IsValid = true,
                 IsPalindrome = true,
@@ -70,7 +70,7 @@ namespace tappit_service_tests
             {
                 FirstName = "Anna",
                 LastName = "Smith",
-                IsAuthoristed = true,
+                IsAuthorised = true,
                 IsEnabled = true,
                 IsValid = true,
                 IsPalindrome = true,

@@ -49,14 +49,14 @@ namespace tappit_service.Services
         public async Task<Person> GetPerson(long personId)
         {
             using (var con = new SqlConnection(_connectionString))
-            { 
+            {
                 con.Open();
                 var persons = con.Query<Person>(@"SELECT People.PersonId, FirstName, LastName, Sports.Name as FavouriteSport, People.IsEnabled as IsEnabled, IsAuthorised, IsValid FROM People JOIN FavouriteSports On People.PersonId = FavouriteSports.PersonId JOIN Sports On Sports.SportId = FavouriteSports.SportId WHERE People.PersonId = @PersonId",
-                new {PersonId = personId });
+                new { PersonId = personId });
                 if (persons != null)
                 {
                     var favouriteSports = String.Empty;
-                    foreach(var p in persons)
+                    foreach (var p in persons)
                     {
                         favouriteSports += p.FavouriteSport + ", ";
                     }
@@ -68,7 +68,6 @@ namespace tappit_service.Services
                 return null;
             }
         }
-
 
         public async Task<long> UpdatePerson(Person person)
         {
@@ -82,7 +81,6 @@ namespace tappit_service.Services
             }
         }
 
-
         public bool IsPalindrome(string name)
         {
             var nameLower = name.ToLower();
@@ -92,8 +90,6 @@ namespace tappit_service.Services
                 return true;
             return false;
         }
-
-
        
     }
 }

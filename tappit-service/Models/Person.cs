@@ -19,7 +19,7 @@ namespace tappit_service.Models
         [Required]
         public bool IsValid {get;set;}
         [Required]
-        public bool IsAuthoristed { get; set; }
+        public bool IsAuthorised { get; set; }
         public bool IsPalindrome { get; set; }
         public string FavouriteSport { get; set; }
     }
