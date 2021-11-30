@@ -12,7 +12,7 @@ namespace tappit_service.Services
     public class PersonService : IPersonService
     {
         private readonly string _connectionString;
-       
+
         public PersonService(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Database");
@@ -20,8 +20,8 @@ namespace tappit_service.Services
 
         public async Task<List<Person>> GetPersons()
         {
-           
-            using(var con = new SqlConnection(_connectionString))
+
+            using (var con = new SqlConnection(_connectionString))
             {
                 con.Open();
                 var persons = con.Query<Person>(@"SELECT  People.PersonId, FirstName, LastName, Sports.Name as FavouriteSport, People.IsEnabled as IsEnabled, IsAuthorised, IsValid FROM People JOIN FavouriteSports On People.PersonId = FavouriteSports.PersonId JOIN Sports On Sports.SportId = FavouriteSports.SportId").ToList();
@@ -29,21 +29,15 @@ namespace tappit_service.Services
 
                 var grouped = persons.GroupBy(_ => _.PersonId);
                 var personsCondensed = new List<Person>();
-                foreach(var g in grouped)
+                foreach (var g in grouped)
                 {
-                    var favouriteSports = String.Empty;
-                    foreach(var p  in g)
-                    {
-                        favouriteSports += p.FavouriteSport + ", ";
-                    }
-                    var person = g.First();
-                    person.FavouriteSport = favouriteSports;
+                    var person = GetPersonWithFavSports(g.ToList());
                     personsCondensed.Add(person);
                 }
-                
+
                 return personsCondensed;
             }
-           
+
         }
 
         public async Task<Person> GetPerson(long personId)
@@ -54,14 +48,8 @@ namespace tappit_service.Services
                 var persons = con.Query<Person>(@"SELECT People.PersonId, FirstName, LastName, Sports.Name as FavouriteSport, People.IsEnabled as IsEnabled, IsAuthorised, IsValid FROM People JOIN FavouriteSports On People.PersonId = FavouriteSports.PersonId JOIN Sports On Sports.SportId = FavouriteSports.SportId WHERE People.PersonId = @PersonId",
                 new { PersonId = personId });
                 if (persons != null)
-                {
-                    var favouriteSports = String.Empty;
-                    foreach (var p in persons)
-                    {
-                        favouriteSports += p.FavouriteSport + ", ";
-                    }
-                    var person = persons.FirstOrDefault();
-                    person.FavouriteSport = favouriteSports;
+                { 
+                    var person = GetPersonWithFavSports(persons.ToList());
                     person.IsPalindrome = IsPalindrome(person.FirstName);
                     return person;
                 }
@@ -89,6 +77,17 @@ namespace tappit_service.Services
             if (reverse == nameLower)
                 return true;
             return false;
+        }
+
+        public Person GetPersonWithFavSports(List<Person> persons) {
+            var favouriteSportsList = new List<string>();
+            foreach (var p in persons)
+            {
+                favouriteSportsList.Add(p.FavouriteSport);
+            }
+            var person = persons.First();
+            person.FavouriteSport = String.Join(",", favouriteSportsList); ;
+            return person;
         }
        
     }
